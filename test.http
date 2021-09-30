@@ -1,0 +1,12 @@
+GET https://msg.zzuli.edu.cn/xsc/get_user_info?code=e0062fbc8ee4689b62ba8857d64c4ad5&wj_type=0 HTTP/1.1
+###
+GET http://kys.zzuli.edu.cn/cas/login HTTP/1.1
+###
+POST http://kys.zzuli.edu.cn/cas/login HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+username=541913460230
+&password=miao7456mmmm958
+&lt=LT-38107-iysC2Algmu1sBDKtblXXlqHc6AP1uf-jinghua
+&execution=e4s1
+&_eventId=submit

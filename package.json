@@ -1,0 +1,22 @@
+{
+  "name": "iqgd-autoclockin",
+  "version": "1.0.0",
+  "description": "i轻工大疫情自动打卡",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miaochenxi/iqgd-autoclockin.git"
+  },
+  "author": "mcx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miaochenxi/iqgd-autoclockin/issues"
+  },
+  "homepage": "https://github.com/miaochenxi/iqgd-autoclockin#readme",
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  }
+}
