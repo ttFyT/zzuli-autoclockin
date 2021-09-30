@@ -1,10 +1,11 @@
 const { getUserInfo, msg_xsc } = require("./api/config")
 const https = require('https')
 const http = require('http')
-const CryptoJS = require('./utils/crypto-js')
 
 exports.user = {
-  user_code: null
+  user_name: null,
+  user_code: null,
+  password: null
 }
 
 exports.fetchInfo = async (code) => {
@@ -20,15 +21,6 @@ exports.fetchInfo = async (code) => {
     console.log(data)
     return JSON.parse(data)
   })
-}
-
-exports.getEncryptedUserCode = (str) => {
-  let key = CryptoJS.enc.Utf8.parse('1234567887654321')
-  let encrypted = CryptoJS.AES.encrypt(str, key, {
-    mode: CryptoJS.mode.ECB,
-    padding: CryptoJS.pad.ZeroPadding
-  }).toString()
-  return encodeURIComponent(encrypted)
 }
 
 // 登录获取打卡code

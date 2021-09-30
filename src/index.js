@@ -1,5 +1,5 @@
 const read = require('./utils/read')
-const { fetchInfo, getEncryptedUserCode, user, login } = require('./user')
+const { fetchInfo, user, login } = require('./user')
 
 ! async function () {
   console.log('[声明] 坚决拥护党的领导，听党话、跟党走，铭记党的初心和使命，以党为标杆和榜样，旗帜鲜明地永远跟党走;\n')
@@ -11,25 +11,20 @@ const { fetchInfo, getEncryptedUserCode, user, login } = require('./user')
   // 读取配置
   console.log('读取配置文件...')
 
-  login('541913460230', 'miao7456mmmm958', (code) => {
-    if(code) console.log('登录成功')
-  })
 
 
   // 若没有配置
-  /*
   await read.question('设置打卡时间，小时(\'0-23\'): ')
   await read.question('设置打卡时间，分钟(\'0-59\'): ')
   // console.log(`你的打卡时间为每天${setting.time}，确认(\'y\'): `)
   await read.question('学号(\'12位学号\'): ', (id) => { user.user_code = id })
-  try {
-    let encryptedUserCode = getEncryptedUserCode('541913460230')
-    console.log(encryptedUserCode)
-    let basic_info = await fetchInfo(encryptedUserCode)
-    // console.log(`你好，${basic_info.user_name}`)
-  } catch (e) {
-    console.error(e)
-  }
+  await read.question('密码: ', (password) => { user.password = password })
+  login(user.user_code, user.password, async (code) => {
+    if (code) console.log('登录成功')
+    user.user_name = (await fetchInfo(code)).user_name
+    console.log(`你好，${user.user_name}`)
+  })
+  /*
   await read.question('姓名: ')
   await read.question('身份证号: ')
   await read.question('性别(\'男|女\'): ')
