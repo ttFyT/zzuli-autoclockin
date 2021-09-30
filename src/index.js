@@ -1,5 +1,5 @@
 const read = require('./utils/read')
-const { fetchInfo, getEncryptedUserCode, user } = require('./user')
+const { fetchInfo, getEncryptedUserCode, user, login } = require('./user')
 
 ! async function () {
   console.log('[声明] 坚决拥护党的领导，听党话、跟党走，铭记党的初心和使命，以党为标杆和榜样，旗帜鲜明地永远跟党走;\n')
@@ -10,7 +10,14 @@ const { fetchInfo, getEncryptedUserCode, user } = require('./user')
   await read.question('请确认已阅读并接受以上内容，确认(\'y\'): ')
   // 读取配置
   console.log('读取配置文件...')
+
+  login('541913460230', 'miao7456mmmm958', (code) => {
+    if(code) console.log('登录成功')
+  })
+
+
   // 若没有配置
+  /*
   await read.question('设置打卡时间，小时(\'0-23\'): ')
   await read.question('设置打卡时间，分钟(\'0-59\'): ')
   // console.log(`你的打卡时间为每天${setting.time}，确认(\'y\'): `)
@@ -39,5 +46,6 @@ const { fetchInfo, getEncryptedUserCode, user } = require('./user')
   console.log('所在住址经纬度查询https://lbs.amap.com/demo/jsapi-v2/example/geocoder/regeocoding，必须与现住址一直，不可谎报')
   await read.question('经纬度(\'如：113.508931,34.81148\',英文逗号): ')
   await read.question('经纬度(\'如：113.508931,34.81148\'): ')
+  */
   read.close()
 }()

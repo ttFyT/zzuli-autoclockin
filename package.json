@@ -15,8 +15,5 @@
   "bugs": {
     "url": "https://github.com/miaochenxi/iqgd-autoclockin/issues"
   },
-  "homepage": "https://github.com/miaochenxi/iqgd-autoclockin#readme",
-  "dependencies": {
-    "crypto-js": "^4.1.1"
-  }
+  "homepage": "https://github.com/miaochenxi/iqgd-autoclockin#readme"
 }
