@@ -31,6 +31,13 @@ exports.login = (id, password, callback) => {
     // 第一步请求
     // 获得 lt, excution, JSESSIONID, client
     let date = new Date().toLocaleDateString().replace(/\//g, '-')
+    if (date.substring(date.indexOf('-') + 1, date.lastIndexOf('-')).length == 1) {
+      date = date.replace('-', '-0')
+    }
+    if (date.substring(date.lastIndexOf('-') + 1, date.length).length == 1) {
+      date = date.slice(0, date.length - 1) + '0' + date.charAt(date.length - 1)
+    }
+
     http.get(msg_xsc + date, (res) => {
       res.on('data', (chunk) => {
         data += chunk
@@ -127,6 +134,7 @@ exports.login = (id, password, callback) => {
                         obj.laravel_session = laravel_session
                         obj.PHPSESSID = PHPSESSID
                         // 把各种token都传出去
+                        console.log(obj)
                         resolve(obj)
                       })
                     })
@@ -143,7 +151,8 @@ exports.login = (id, password, callback) => {
   })
 }
 
-exports.postToSever = (tokens, data) => {
+// data 
+exports.postToSever = (tokens, data, success = () => { }) => {
   const req = https.request(add, {
     method: 'POST',
     headers: {
@@ -164,7 +173,7 @@ exports.postToSever = (tokens, data) => {
       'Sec-Fetch-Mode': 'cors',
       'Sec-Fetch-Site': 'same-origin',
       'User-Agent': 'Mozilla/5.0 (Linux; Android 12.0; Rammus) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Mobile Safari/537.36',
-      'X-XSRF-TOKEN': tokens.XSRF_TOKEN
+      'X-XSRF-TOKEN': tokens.XSRF_TOKEN.replace(/\%3D/g, '=')
     }
   }, (res) => {
     let content = ''
@@ -172,14 +181,16 @@ exports.postToSever = (tokens, data) => {
       content += chunk
     })
     res.on('end', () => {
-      let rs = JSON.parse(content)
       console.log(content)
-      if (rs.data.code == 0) {
-        console.log(new Date().toLocaleTimeString() + '已完成打卡，查看' + this.successLogUrl)
+      let rs = JSON.parse(content)
+      if (rs.code == 0) {
+        console.log(new Date().toLocaleTimeString() + '已完成打卡，查看' + this.successLogUrl(data.user_code))
+        // 执行传入的回调函数
+        success()
       } else console.log('打卡失败')
     })
   })
-  req.write(data)
+  req.write(JSON.stringify(data), 'utf-8')
   req.end()
 }
 
@@ -193,7 +204,14 @@ exports.successLogUrl = (user_code) => {
 }
 
 exports.addAttributes = (obj) => {
-  obj.date = new Date().toLocaleDateString().replace(/\//g, '-')
+  let date = new Date().toLocaleDateString().replace(/\//g, '-')
+  if (date.substring(date.indexOf('-') + 1, date.lastIndexOf('-')).length == 1) {
+    date = date.replace('-', '-0')
+  }
+  if (date.substring(date.lastIndexOf('-') + 1, date.length).length == 1) {
+    date = date.slice(0, date.length - 1) + '0' + date.charAt(date.length - 1)
+  }
+  obj.date = date
   obj.region = ''
   obj.area = ''
   obj.build = ''

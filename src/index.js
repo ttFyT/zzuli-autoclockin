@@ -1,6 +1,6 @@
 const read = require('./utils/read')
 const { fetchInfo, user, login, addAttributes, postToSever } = require('./user')
-const { readSettings, readInfo } = require('./utils/file')
+const { readSettings, readInfo, writeInfo, writeSettings } = require('./utils/file')
 
 ! async function () {
   console.log('[声明] 坚决拥护党的领导，听党话、跟党走，铭记党的初心和使命，以党为标杆和榜样，旗帜鲜明地永远跟党走;\n')
@@ -8,7 +8,7 @@ const { readSettings, readInfo } = require('./utils/file')
   console.log('[注意] 本程序仅为方便每日打卡，在一切健康状态良好、位置不变情况下使用本程序自动填报，如有健康状态变更、位置移动等，请勿使用本程序;\n')
   console.log('[条约] 认真填报，若填报不正确信息，出现任何问题概不负责；若不接受，请关闭本程序;\n')
   read.init()
-  console.log('读取配置文件...')
+  let tokens, info, global_flag
   let setting = JSON.parse(readSettings())
   // 接受一次写入配置，后续不再提示
   if (!setting.accepted) {
@@ -17,27 +17,39 @@ const { readSettings, readInfo } = require('./utils/file')
       else process.exit(1)
     })
   }
-  // 已接受
+
+  // 若没有打卡过
   if (setting.code == null || setting.code == '') {
-    // 若没有登录过
     await read.question('学号(\'12位学号\'): ', (id) => { setting.user_code = id })
     await read.question('密码: ', (password) => { setting.password = password })
-    // 登录，获取传来的各种token
-    let tokens = await login(setting.user_code, setting.password)
-    setting.code = tokens.code
-    let info = await fetchInfo(setting.code)
-    if (setting.code) {
-      console.log(`你好，${info.user_name}`)
-      console.log(`学号: ${info.user_code}`)
-      console.log(`身份证: ${info.id_card}`)
-      console.log(`性别: ${info.sex}`)
-      console.log(`年龄: ${info.age}`)
-      console.log(`学院: ${info.org}`)
-      console.log(`年级: ${info.year}`)
-      console.log(`专业: ${info.spec}`)
-      console.log(`班级: ${info.class}`)
-      console.log(`目前居住详细地址: ${info.province}${info.city}${info.district}${info.address}\n`)
+  } else {
+    await read.question('读取到信息文件，是否按上次打卡的信息提交(是\'y\'):', (i) => {
+      if (i == 'y') {
+        // 读取本地信息
+        info = JSON.parse(readInfo())
+        global_flag = 1
+      }
+    })
+  }
+  // 登录，获取传来的各种token
+  tokens = await login(setting.user_code, setting.password)
+  setting.code = tokens.code
+  // 若flag!=1，挨个填写信息
+  if (global_flag != 1) info = await fetchInfo(setting.code)
+  if (setting.code) {
+    console.log(`你好，${info.user_name}`)
+    console.log(`学号: ${info.user_code}`)
+    console.log(`身份证: ${info.id_card}`)
+    console.log(`性别: ${info.sex}`)
+    console.log(`年龄: ${info.age}`)
+    console.log(`学院: ${info.org}`)
+    console.log(`年级: ${info.year}`)
+    console.log(`专业: ${info.spec}`)
+    console.log(`班级: ${info.class}`)
+    console.log(`目前居住详细地址: ${info.province}${info.city}${info.district}${info.address}\n`)
 
+    // flag==1 才逐个填
+    if (global_flag != 1) {
       await read.question('手机号: ', (i) => { info.mobile = i })
       await read.question('家长手机号: ', (i) => { info.jt_mobile = i })
       await read.question('输入所在省: ', (i) => { info.jz_province = i })
@@ -55,7 +67,6 @@ const { readSettings, readInfo } = require('./utils/file')
         info.gcj_lon = info.lon
         info.gcj_lat = info.lat
       })
-
       await read.question('今日体温(正常\'y\'): ', (i) => {
         if (i != 'y')
           console.log('请到i轻工大填报！')
@@ -90,7 +101,7 @@ const { readSettings, readInfo } = require('./utils/file')
           info.hsjcqk = `${i}次`
         } else info.hsjcqk = '更多次'
       })
-      await read.question('最后一次检测时间，格式\'2021-08-02\'，无\'n\'): ', (i) => {
+      await read.question('最后一次检测时间，格式\'2021-08-02\'注意0，无\'n\'): ', (i) => {
         if (i == 'n') {
           info.last_time = ""
         } else info.last_time = i
@@ -116,25 +127,38 @@ const { readSettings, readInfo } = require('./utils/file')
           default: info.jkmzt = '绿色'
         }
       })
+      // 手动填写的边界
+    }
 
-      // 设置打卡时间
-      await read.question('是否设置定时自动打卡？(\'y\'): ').then(async (input) => {
-        if (input == 'y') {
-          await read.question('设置打卡时间，小时(\'0-23\'): ', (input) => { setting.h = input })
-          await read.question('设置打卡时间，分钟(\'0-59\'): ', (input) => { setting.m = input })
-          console.log(`你的打卡时间为每天${setting.h}:${setting.m}`)
-          console.log('监听中，可以最小化窗口，请勿关闭...')
-        } else {
-          // 立即打卡
-          addAttributes(info)
-          console.log(info)
-          postToSever(tokens, readInfo())
-        }
-      })
-    }
-    else {
-      console.log('登陆失败，建议截图提交issue')
-    }
+    // 设置打卡时间
+    await read.question('是否设置定时自动打卡？(\'y\'): ').then(async (input) => {
+      if (input == 'y') {
+        await read.question('设置打卡时间，小时(\'0-23\'): ', (input) => { setting.h = input })
+        await read.question('设置打卡时间，分钟(\'0-59\'): ', (input) => { setting.m = input })
+        console.log(`你的打卡时间为每天${setting.h}:${setting.m}`)
+        console.log('监听中，可以最小化窗口，请勿关闭...(CTRL+D退出)')
+        setInterval(() => {
+          const now = new Date()
+          if (now.getMinutes() == setting.m && now.getHours() == setting.h) {
+            addAttributes(info)
+            postToSever(tokens, info, () => {
+              writeInfo(JSON.stringify(info), () => { console.log('信息已写入本地！') })
+              writeSettings(JSON.stringify(setting), () => { console.log('配置已写入本地！') })
+            })
+          }
+        }, 60000)
+      } else {
+        // 立即打卡
+        addAttributes(info)
+        // console.log(info)
+        postToSever(tokens, info, () => {
+          writeInfo(JSON.stringify(info), () => { console.log('信息已写入本地！') })
+          writeSettings(JSON.stringify(setting), () => { console.log('配置已写入本地！') })
+        })
+      }
+    })
+    // 登录成功的边界
   }
+  else console.log('登陆失败，建议截图提交issue')
   read.close()
 }()
