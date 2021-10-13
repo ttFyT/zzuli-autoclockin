@@ -8,10 +8,10 @@ exports.user = {
   password: null,
 }
 
-exports.fetchInfo = async (code) => {
+exports.fetchInfo = async (code, wj_type) => {
   let data = ''
   return new Promise((resolve) => {
-    https.get(`${getUserInfo}code=${code}&wj_type=0`, (res) => {
+    https.get(`${getUserInfo}code=${code}&wj_type=${wj_type}`, (res) => {
       res.on('data', (chunk) => {
         data += chunk
       })
@@ -23,7 +23,7 @@ exports.fetchInfo = async (code) => {
 }
 
 // 登录获取打卡code
-exports.login = (id, password, callback) => {
+exports.login = (id, password) => {
   return new Promise((resolve) => {
     let data = ''
     let lt, excution
@@ -203,7 +203,8 @@ exports.successLogUrl = (user_code) => {
   return log + encodeURIComponent(encrypted);
 }
 
-exports.addAttributes = (obj) => {
+exports.addAttributes = (obj, wj_type) => {
+  // 处理date，补零
   let date = new Date().toLocaleDateString().replace(/\//g, '-')
   if (date.substring(date.indexOf('-') + 1, date.lastIndexOf('-')).length == 1) {
     date = date.replace('-', '-0')
@@ -211,70 +212,133 @@ exports.addAttributes = (obj) => {
   if (date.substring(date.lastIndexOf('-') + 1, date.length).length == 1) {
     date = date.slice(0, date.length - 1) + '0' + date.charAt(date.length - 1)
   }
-  obj.date = date
-  obj.region = ''
-  obj.area = ''
-  obj.build = ''
-  obj.dorm = ''
-  obj.hj_province = ''
-  obj.hj_city = ''
-  obj.hj_district = ''
-  obj.out = '否'
-  obj.out_address = [{ start_date: "", end_date: "", province: "", city: "", district: "", area: "", address: "" }]
-  obj.hb = '否'
-  obj.hb_area = ''
-  obj.hn = '否'
-  obj.hn_area = ''
-  obj.sj_province = ''
-  obj.sj_city = ''
-  obj.sj_district = ''
-  obj.temp = '正常'
-  obj.jrzz = '无'
-  obj.jzqk = ''
-  obj.stzk = '无'
-  obj.jcbl = '否'
-  obj.jcqk = ''
-  obj.yqgl = '否'
-  obj.glrq = ''
-  obj.gljc = ''
-  obj.glp = ''
-  obj.glc = ''
-  obj.gld = ''
-  obj.gla = ''
-  obj.glyy = ''
-  obj.other = ''
-  obj.no_yy = ''
-  obj.no_jtyy = ''
-  obj.glztlb = ''
-  obj.hb_date = ''
-  obj.jz_qzbl = ''
-  obj.tz_qzbl = ''
-  obj.tz_province = ''
-  obj.tz_city = ''
-  obj.tz_district = ''
-  obj.tz_area = ''
-  obj.tz_address = ''
-  obj.jc_yqjc = ''
-  obj.jc_jcrq = ''
-  obj.jc_province = ''
-  obj.jc_city = ''
-  obj.jc_district = ''
-  obj.jc_area = ''
-  obj.jc_address = ''
-  obj.qz_yqbl = '否'
-  obj.qz_yqrq = ''
-  obj.zl_province = ''
-  obj.zl_city = ''
-  obj.zl_district = ''
-  obj.zl_area = ''
-  obj.zl_address = ''
-  obj.zl_sfzy = ''
-  obj.zl_zyrq = ''
-  obj.xq_province = ''
-  obj.xq_city = ''
-  obj.xq_district = ''
-  obj.xq_area = ''
-  obj.xq_address = ''
-  obj.home_time = ''
-  obj.wj_type = 0
+  // 判断在校晨检还是居家打卡
+  if (wj_type == 0) {
+    obj.date = date
+    obj.region = ''
+    obj.area = ''
+    obj.build = ''
+    obj.dorm = ''
+    obj.hj_province = ''
+    obj.hj_city = ''
+    obj.hj_district = ''
+    obj.out = '否'
+    obj.out_address = [{ start_date: "", end_date: "", province: "", city: "", district: "", area: "", address: "" }]
+    obj.hb = '否'
+    obj.hb_area = ''
+    obj.hn = '否'
+    obj.hn_area = ''
+    obj.sj_province = ''
+    obj.sj_city = ''
+    obj.sj_district = ''
+    obj.temp = '正常'
+    obj.jrzz = '无'
+    obj.jzqk = ''
+    obj.stzk = '无'
+    obj.jcbl = '否'
+    obj.jcqk = ''
+    obj.yqgl = '否'
+    obj.glrq = ''
+    obj.gljc = ''
+    obj.glp = ''
+    obj.glc = ''
+    obj.gld = ''
+    obj.gla = ''
+    obj.glyy = ''
+    obj.other = ''
+    obj.no_yy = ''
+    obj.no_jtyy = ''
+    obj.glztlb = ''
+    obj.hb_date = ''
+    obj.jz_qzbl = ''
+    obj.tz_qzbl = ''
+    obj.tz_province = ''
+    obj.tz_city = ''
+    obj.tz_district = ''
+    obj.tz_area = ''
+    obj.tz_address = ''
+    obj.jc_yqjc = ''
+    obj.jc_jcrq = ''
+    obj.jc_province = ''
+    obj.jc_city = ''
+    obj.jc_district = ''
+    obj.jc_area = ''
+    obj.jc_address = ''
+    obj.qz_yqbl = '否'
+    obj.qz_yqrq = ''
+    obj.zl_province = ''
+    obj.zl_city = ''
+    obj.zl_district = ''
+    obj.zl_area = ''
+    obj.zl_address = ''
+    obj.zl_sfzy = ''
+    obj.zl_zyrq = ''
+    obj.xq_province = ''
+    obj.xq_city = ''
+    obj.xq_district = ''
+    obj.xq_area = ''
+    obj.xq_address = ''
+    obj.home_time = ''
+    obj.wj_type = 0
+  }
+  else if (wj_type == 1) {
+    obj.date = date
+    obj.out = ""
+    obj.out_address = "[]"
+    obj.hb = ""
+    obj.hb_area = ""
+    obj.hn = ""
+    obj.hn_area = ""
+    obj.sj_province = ""
+    obj.sj_city = ""
+    obj.sj_district = ""
+    obj.temp = '正常'
+    obj.jrzz = '无'
+    obj.jzqk = ''
+    obj.stzk = '无'
+    obj.jcbl = ''
+    obj.jcqk = ''
+    obj.yqgl = '否'
+    obj.glrq = ""
+    obj.gljc = ""
+    obj.glp = ""
+    obj.glc = ""
+    obj.gld = ""
+    obj.gla = ""
+    obj.glyy = ""
+    obj.other = ""
+    obj.no_yy = ""
+    obj.no_jtyy = ""
+    obj.hb_date = ""
+    obj.jz_qzbl = ""
+    obj.tz_qzbl = ""
+    obj.tz_province = ""
+    obj.tz_city = ""
+    obj.tz_district = ""
+    obj.tz_area = ""
+    obj.tz_address = ""
+    obj.jc_yqjc = ""
+    obj.jc_jcrq = ""
+    obj.jc_province = ""
+    obj.jc_city = ""
+    obj.jc_district = ""
+    obj.jc_area = ""
+    obj.jc_address = ""
+    obj.qz_yqbl = "否"
+    obj.qz_yqrq = ""
+    obj.zl_province = ""
+    obj.zl_city = ""
+    obj.zl_district = ""
+    obj.zl_area = ""
+    obj.zl_address = ""
+    obj.zl_sfzy = ""
+    obj.zl_zyrq = ""
+    obj.xq_province = ""
+    obj.xq_city = ""
+    obj.xq_district = ""
+    obj.xq_area = ""
+    obj.xq_address = ""
+    obj.home_time = ""
+    obj.wj_type = 1
+  }
 }
