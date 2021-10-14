@@ -7,6 +7,7 @@ const CryptoJS = require("./utils/crypto-js")
   password = process.argv[process.argv.indexOf('--password') + 1]
   wj_type = process.argv[process.argv.indexOf('--type') + 1]
   info = process.argv[process.argv.indexOf('--data') + 1]
+  console.log(process.argv)
   let decrypted = CryptoJS.enc.Base64.parse(info).toString(CryptoJS.enc.Utf8)
   info = JSON.parse(decrypted)
   if (wj_type == 1) {

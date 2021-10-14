@@ -23,4 +23,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm run action -- --username ${{secrets.ZZULI_USERNAME}} --password ${{secrets.ZZULI_PASSWORD}} --type 1 --data ${{secrets.MORN}}
+    - run: npm run action -- --username ${{secrets.ZZULI_USERNAME}} --password ${{secrets.ZZULI_PASSWORD}} --type 1 --data ${{secrets.MORNINFO}}
