@@ -24,7 +24,7 @@ const CryptoJS = require("./utils/crypto-js")
   let offset_GMT = new Date().getTimezoneOffset();
   let nowDate = new Date().getTime();
   let targetDate = new Date(nowDate + offset_GMT * 60 * 1000 + 8 * 60 * 60 * 1000);
-  targetDate = targetDate.toLocaleDateString()
+  targetDate = targetDate.getFullYear()+'-'+targetDate.getMonth()+'-'+targetDate.getDay()
   if (targetDate.substring(targetDate.indexOf('-') + 1, targetDate.lastIndexOf('-')).length == 1) {
     targetDate = targetDate.replace('-', '-0')
   }
