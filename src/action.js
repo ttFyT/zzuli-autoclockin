@@ -9,6 +9,7 @@ const CryptoJS = require("./utils/crypto-js")
   info = process.argv[process.argv.indexOf('--data') + 1]
   console.log(process.argv)
   let decrypted = CryptoJS.enc.Base64.parse(info).toString(CryptoJS.enc.Utf8)
+  console.log(decrypted)
   info = JSON.parse(decrypted)
   if (wj_type == 1) {
     console.log('[在校晨检]')

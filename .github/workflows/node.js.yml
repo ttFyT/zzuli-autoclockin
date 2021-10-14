@@ -4,12 +4,12 @@ on:
   push:
   pull_request:
   schedule:
-    - cron:  '30 0 * * *'
+    - cron:  '25 7 * * *'
 
 jobs:
   exec:
     name: Check
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
