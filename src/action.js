@@ -7,9 +7,7 @@ const CryptoJS = require("./utils/crypto-js")
   password = process.argv[process.argv.indexOf('--password') + 1]
   wj_type = process.argv[process.argv.indexOf('--type') + 1]
   info = process.argv[process.argv.indexOf('--data') + 1]
-  console.log(process.argv)
   let decrypted = CryptoJS.enc.Base64.parse(info).toString(CryptoJS.enc.Utf8)
-  console.log(decrypted)
   info = JSON.parse(decrypted)
   if (wj_type == 1) {
     console.log('[在校晨检]')
@@ -22,6 +20,17 @@ const CryptoJS = require("./utils/crypto-js")
   }
   tokens = await login(username, password)
   addAttributes(info, wj_type)
-  console.log(info)
+  // 时区处理
+  let offset_GMT = new Date().getTimezoneOffset();
+  let nowDate = new Date().getTime();
+  let targetDate = new Date(nowDate + offset_GMT * 60 * 1000 + 8 * 60 * 60 * 1000);
+  targetDate = targetDate.toLocaleDateString()
+  if (targetDate.substring(targetDate.indexOf('-') + 1, targetDate.lastIndexOf('-')).length == 1) {
+    targetDate = targetDate.replace('-', '-0')
+  }
+  if (targetDate.substring(targetDate.lastIndexOf('-') + 1, targetDate.length).length == 1) {
+    targetDate = targetDate.slice(0, targetDate.length - 1) + '0' + targetDate.charAt(targetDate.length - 1)
+  }
+  info.date = targetDate
   postToSever(tokens, info)
 }()
