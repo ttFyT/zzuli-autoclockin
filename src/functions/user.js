@@ -1,7 +1,7 @@
-const { getUserInfo, msg_xsc, add, log } = require("./api/config")
+const { getUserInfo, msg_xsc, add, log } = require("../api/config")
 const https = require('https')
 const http = require('http')
-const CryptoJS = require('./utils/crypto-js')
+const CryptoJS = require('../utils/crypto-js')
 
 exports.user = {
   user_code: null,

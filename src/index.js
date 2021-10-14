@@ -1,10 +1,10 @@
 const read = require('./utils/read')
-const { fetchInfo, login, addAttributes, postToSever } = require('./user')
+const { fetchInfo, login, addAttributes, postToSever } = require('./functions/user')
 const { readSettings, readInfo, writeInfo, writeSettings } = require('./utils/file')
 const { morningCheck } = require('./functions/morn')
 const { homeCheck } = require('./functions/home')
 
-! async function () {
+!async function () {
   console.log('[声明] 坚决拥护党的领导，听党话、跟党走，铭记党的初心和使命，以党为标杆和榜样，旗帜鲜明地永远跟党走;\n')
   console.log('[隐私] 根据豫教防疫办[2020]17号、郑教防疫办[2020]28号文件要求，您填报的内容将由学校上报至政府有关部门;\n')
   console.log('[注意] 本程序仅为方便每日打卡，在一切健康状态良好、位置不变情况下使用本程序自动填报，如有健康状态变更、位置移动等，请勿使用本程序;\n')
