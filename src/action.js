@@ -22,5 +22,6 @@ const CryptoJS = require("./utils/crypto-js")
   }
   tokens = await login(username, password)
   addAttributes(info, wj_type)
+  console.log(info)
   postToSever(tokens, info)
 }()
