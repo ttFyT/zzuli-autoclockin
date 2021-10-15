@@ -1,6 +1,7 @@
 <h1 align="center">🎉 i 轻工大健康填报自动化 🎉</h1>
 <p align="center">
-  <img src="https://img.shields.io/badge/nodejs->=8.5.4-brightgreen.svg" />
+  <img src="https://img.shields.io/badge/nodejs->=v8.5.4-brightgreen.svg" />
+  <img src="https://github.com/miaochenxi/iqgd-autoclockin/actions/workflows/node.js.yml/badge.svg" />
 </p>
 
 基于 Nodejs ，实现自动考勤打卡，无需每日定闹钟提醒自己，无需担心被拉入黑群，也无需担心忘记打卡被点名批评。
@@ -16,7 +17,11 @@
 
 安卓、Windows、Linux ... 只要可以运行 Nodejs
 
-## 安装 🛠
+## 配置 🛠
+
+### 方式一
+
+简单，但需要开着电脑，程序挂在后台,保证网络畅通。
 
 将仓库克隆到本地
 
@@ -41,6 +46,12 @@ npm run start
 cd src
 node index.js
 ```
+
+### 方式二
+
+方便，利用 GitHub Actions 执行 Nodejs CI 定时任务，但需要细心和一定动手能力。
+
+下课写...
 
 ## 运行 ⚙
 
