@@ -1,9 +1,8 @@
 name: Node.js CI
 
 on:
-  push:
   schedule:
-    - cron:  '25 7 * * *'
+    - cron:  '25 23 * * *'
     # 使用的格林威治时间，比北京时间早8小时，如果设置早上07:25执行，则应写为 '25 23 * * *'
     # 具体cron语法 https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#schedule
 
