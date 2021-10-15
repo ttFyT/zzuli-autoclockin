@@ -13,7 +13,7 @@
     "url": "git+https://github.com/miaochenxi/iqgd-autoclockin.git"
   },
   "author": "mcx",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/miaochenxi/iqgd-autoclockin/issues"
   },

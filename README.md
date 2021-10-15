@@ -17,7 +17,7 @@
 
 安卓、Windows、Linux ... 只要可以运行 Nodejs
 
-## 配置 🛠
+## 部署 🛠
 
 ### 方式一
 
@@ -42,6 +42,7 @@ npm run start
 ```
 
 或者
+
 ```bash
 cd src
 node index.js
@@ -51,7 +52,32 @@ node index.js
 
 方便，利用 GitHub Actions 执行 Nodejs CI 定时任务，但需要细心和一定动手能力。
 
-下课写...
+1. fork 本仓库  
+建议在 fork 后，将自己的仓库设置为私有，以免个人信息公开可见。若不想设置私有，可在每次上传代码之前，清空json文件夹下所有文件的内容，均写为 `{}`。
+
+2. 将你的仓库克隆到你的电脑
+
+```bash
+git clone 你的仓库地址
+```
+
+3. 在电脑上先进行一次填报，目的是将你的信息记录，并在下一步进行编码。如何运行，参考方式一。
+
+4. 填报完成后，运行 `npm run encrypt` ，复制你需要的内容，根据上一步填报的内容，将输出晨检或是居家信息的Base64编码
+
+5. 在浏览器中进入你的仓库 Settings-->Secrets，右上方 `New repository secret` ，依次点击添加：`ZZULI_USERNAME` 值为智慧门户用户名， `ZZULI_PASSWORD` 值为门户密码， `MORNINFO` 值为上一步复制的晨检信息编码， `HOMEINFO` 值为上一步复制的居家信息编码。（MORNINFO 和 HOMEINFO 打哪种卡添加哪个，用不到的可以暂时不添加，请不要复制多余空格）
+![设置](./docs/secrets.png)
+
+6. 使用 VSCode 或其他编辑器，配置项目的 .github/workflows文件夹下的 `node.js.yml` 文件，注意缩进，不正确的缩进将出现语法错误。
+![配置文件](./docs/yml-config.png)
+
+- 使用的格林威治时间，比北京时间早8小时，如果设置早上07:25执行，则应写为 '25 23 * * *' ，图片测试时截的，懒得更新了
+- 具体cron语法 https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#schedule
+- 在校晨检设置 type 参数为 1 ，居家填报设置 type 参数为 0
+- 自己使用时，请将 on 后的 `push:` 与 `pull request:` 删除，这是测试CI时用的，否则你也将在提交或 merge pull request 时执行任务
+
+7. 完成以上步骤后，commit 并 push ，任务将在指定时间执行，可在你仓库的 Actions 中查看运行结果
+![](./docs/actions.png)
 
 ## 运行 ⚙
 

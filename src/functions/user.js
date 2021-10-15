@@ -134,7 +134,7 @@ exports.login = (id, password) => {
                         obj.laravel_session = laravel_session
                         obj.PHPSESSID = PHPSESSID
                         // 把各种token都传出去
-                        console.log(obj)
+                        // console.log(obj)
                         resolve(obj)
                       })
                     })

@@ -2,9 +2,10 @@ name: Node.js CI
 
 on:
   push:
-  pull_request:
   schedule:
     - cron:  '25 7 * * *'
+    # 使用的格林威治时间，比北京时间早8小时，如果设置早上07:25执行，则应写为 '25 23 * * *'
+    # 具体cron语法 https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#schedule
 
 jobs:
   exec:
@@ -23,3 +24,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm run action -- --username ${{secrets.ZZULI_USERNAME}} --password ${{secrets.ZZULI_PASSWORD}} --type 1 --data ${{secrets.MORNINFO}}
+    # 在校晨检设置 type 参数为 1 ，居家填报设置 type 参数为 0
