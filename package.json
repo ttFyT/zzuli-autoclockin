@@ -1,5 +1,5 @@
 {
-  "name": "iqgd-autoclockin",
+  "name": "zzuli-autoclockin",
   "version": "1.3.0",
   "description": "i轻工大疫情健康填报自动化",
   "main": "index.js",
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/miaochenxi/iqgd-autoclockin.git"
+    "url": "git+https://github.com/miaochenxi/zzuli-autoclockin.git"
   },
   "author": "mcx",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/miaochenxi/iqgd-autoclockin/issues"
+    "url": "https://github.com/miaochenxi/zzuli-autoclockin/issues"
   },
-  "homepage": "https://github.com/miaochenxi/iqgd-autoclockin#readme"
+  "homepage": "https://github.com/miaochenxi/zzuli-autoclockin#readme"
 }

@@ -1,7 +1,7 @@
 <h1 align="center">🎉 i 轻工大健康填报自动化 🎉</h1>
 <p align="center">
   <img src="https://img.shields.io/badge/nodejs->=v8.5.4-brightgreen.svg" />
-  <img src="https://github.com/miaochenxi/iqgd-autoclockin/actions/workflows/node.js.yml/badge.svg" />
+  <img src="https://github.com/miaochenxi/zzuli-autoclockin/actions/workflows/node.js.yml/badge.svg" />
 </p>
 
 基于 Nodejs ，实现自动考勤打卡，无需每日定闹钟提醒自己，无需担心被拉入黑群，也无需担心忘记打卡被点名批评。
@@ -26,13 +26,13 @@
 将仓库克隆到本地
 
 ```bash
-git clone https://github.com/miaochenxi/iqgd-autoclockin.git
+git clone https://github.com/miaochenxi/zzuli-autoclockin.git
 ```
 
 进入项目文件夹
 
 ```bash
-cd iqgd-autoclockin
+cd zzuli-autoclockin
 ```
 
 运行
