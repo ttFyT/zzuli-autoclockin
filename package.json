@@ -1,7 +1,7 @@
 {
   "name": "zzuli-autoclockin",
   "version": "1.3.0",
-  "description": "i轻工大疫情健康填报自动化",
+  "description": "郑州轻工业大学，i轻工大疫情健康填报自动化",
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
