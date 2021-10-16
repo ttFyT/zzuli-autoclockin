@@ -1,4 +1,4 @@
-name: Node.js 健康填报 CI
+name: Node.js 填报 CI
 
 on:
   schedule:
@@ -22,5 +22,24 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run action -- --username ${{secrets.ZZULI_USERNAME}} --password ${{secrets.ZZULI_PASSWORD}} --type 1 --data ${{secrets.MORNINFO}}
+    - name: Run Health Report
+      run: npm run action -- --username ${{secrets.ZZULI_USERNAME}} --password ${{secrets.ZZULI_PASSWORD}} --type 1 --data ${{secrets.MORNINFO}}
     # 在校晨检设置 type 参数为 1 ，居家填报设置 type 参数为 0
+    - name: Retry [1]
+      if: ${{ failure() }}
+      run: |
+        date
+        sleep 5m
+        npm run action -- --username ${{secrets.ZZULI_USERNAME}} --password ${{secrets.ZZULI_PASSWORD}} --type 1 --data ${{secrets.MORNINFO}}
+    - name: Retry [2]
+      if: ${{ failure() }}
+      run: |
+        date
+        sleep 10m
+        npm run action -- --username ${{secrets.ZZULI_USERNAME}} --password ${{secrets.ZZULI_PASSWORD}} --type 1 --data ${{secrets.MORNINFO}}
+    - name: Retry [3]
+      if: ${{ failure() }}
+      run: |
+        date
+        sleep 20m
+        npm run action -- --username ${{secrets.ZZULI_USERNAME}} --password ${{secrets.ZZULI_PASSWORD}} --type 1 --data ${{secrets.MORNINFO}}
