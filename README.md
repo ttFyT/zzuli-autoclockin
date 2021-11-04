@@ -63,7 +63,7 @@ git clone 你的仓库地址
 
 3. 在电脑上先进行一次填报，目的是将你的信息记录，并在下一步进行编码。如何运行，参考方式一。
 
-4. 填报完成后，运行 `npm run encrypt` ，复制你需要的内容，根据上一步填报的内容，将输出晨检或是居家信息的Base64编码
+4. 填报完成后，运行 `npm run encrypt` ，根据上一步填报的内容，将输出晨检(MORNINFO)或是居家信息(HOMEINFO)的Base64编码，复制你需要的，将在下一步中使用。
 
 5. 在浏览器中进入你的仓库 Settings-->Secrets，右上方 `New repository secret` ，依次点击添加：`ZZULI_USERNAME` 值为智慧门户用户名， `ZZULI_PASSWORD` 值为门户密码， `MORNINFO` 值为上一步复制的晨检信息编码， `HOMEINFO` 值为上一步复制的居家信息编码。（MORNINFO 和 HOMEINFO 打哪种卡添加哪个，用不到的可以暂时不添加，请不要复制多余空格）
 ![设置](./docs/secrets.png)
