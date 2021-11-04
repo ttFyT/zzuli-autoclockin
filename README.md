@@ -53,6 +53,7 @@ node index.js
 方便，利用 GitHub Actions 执行 Nodejs CI 定时任务，但需要细心和一定动手能力。
 
 1. fork 本仓库  
+fork 完成后请在 Actions 中**开启**`Github Action`，并点击 `NodeJS CI` 任务，**启用**此任务。
 建议在 fork 后，将自己的仓库设置为私有，以免个人信息公开可见。若不想设置私有，可在每次上传代码之前，清空json文件夹下所有文件的内容，均写为 `{}`。
 
 2. 将你的仓库克隆到你的电脑
@@ -68,7 +69,7 @@ git clone 你的仓库地址
 5. 在浏览器中进入你的仓库 Settings-->Secrets，右上方 `New repository secret` ，依次点击添加：`ZZULI_USERNAME` 值为智慧门户用户名， `ZZULI_PASSWORD` 值为门户密码， `MORNINFO` 值为上一步复制的晨检信息编码， `HOMEINFO` 值为上一步复制的居家信息编码。（MORNINFO 和 HOMEINFO 打哪种卡添加哪个，用不到的可以暂时不添加，请不要复制多余空格）
 ![设置](./docs/secrets.png)
 
-6. 使用 VSCode 或其他编辑器，配置项目的 .github/workflows文件夹下的 `node.js.yml` 文件，注意缩进，不正确的缩进将出现语法错误。
+6. 在Github上编辑项目的 .github/workflows文件夹下的 `node.js.yml` 文件，注意缩进，不正确的缩进将出现语法错误。
 ![配置文件](./docs/yml-config.png)
 
 - 使用的格林威治时间，比北京时间早8小时，如果设置早上07:25执行，则应写为 '25 23 * * *' ，图片测试时截的，懒得更新了
