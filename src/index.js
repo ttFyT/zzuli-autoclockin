@@ -57,7 +57,10 @@ const { homeCheck } = require('./functions/home')
 
   // 登陆成功或有本地code
   if (setting.code) {
-    info = await fetchInfo(setting.code, wj_type)
+    // 非本地读取则需要请求获取
+    if (global_flag == 0) {
+      info = await fetchInfo(setting.code, wj_type)
+    }
     console.log(`你好，${info.user_name}`)
     console.log(`学号: ${info.user_code}`)
     console.log(`身份证: ${info.id_card}`)
@@ -102,7 +105,6 @@ const { homeCheck } = require('./functions/home')
       } else {
         // 立即打卡
         addAttributes(info, wj_type)
-        // console.log(info)
         postToSever(tokens, info, () => {
           if (wj_type == 0) {
             writeInfo(JSON.stringify(info), 'home', () => { console.log('居家信息已写入本地！') })
