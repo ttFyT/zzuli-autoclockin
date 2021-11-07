@@ -205,7 +205,8 @@ exports.successLogUrl = (user_code) => {
 
 exports.addAttributes = (obj, wj_type) => {
   // 处理date，补零
-  let date = new Date().toLocaleDateString().replace(/\//g, '-')
+  let date = new Date()
+  date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
   if (date.substring(date.indexOf('-') + 1, date.lastIndexOf('-')).length == 1) {
     date = date.replace('-', '-0')
   }
