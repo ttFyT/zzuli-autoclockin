@@ -1,10 +1,10 @@
 {
   "name": "zzuli-autoclockin",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "ZZULI 郑州轻工业大学，疫情健康填报自动化",
   "main": "index.js",
   "scripts": {
-    "start": "echo 正在检查更新，若等待时间过长请挂代理... & git pull & node ./src/index.js",
+    "start": "((echo 正在检查更新，若等待时间过长请挂代理... && git pull) && node ./src/index.js)|| node ./src/index.js",
     "encrypt": "node ./src/utils/getBase64.js",
     "action": "node ./src/action.js"
   },
