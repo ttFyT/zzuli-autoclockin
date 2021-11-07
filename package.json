@@ -4,7 +4,7 @@
   "description": "ZZULI 郑州轻工业大学，疫情健康填报自动化",
   "main": "index.js",
   "scripts": {
-    "start": "((echo 正在检查更新，若等待时间过长请挂代理... && git pull) && node ./src/index.js)|| node ./src/index.js",
+    "start": "(node ./src/index.js && echo 正在检查更新，若等待时间过长请挂代理... && git pull)|| (echo 正在检查更新，若等待时间过长请挂代理... && git pull)",
     "encrypt": "node ./src/utils/getBase64.js",
     "action": "node ./src/action.js"
   },
